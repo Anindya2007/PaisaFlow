@@ -1,0 +1,39 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend for Paisa Flow",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anindya2007/PaisaFlow.git"
+  },
+  "author": "Anindya",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Anindya2007/PaisaFlow/issues"
+  },
+  "homepage": "https://github.com/Anindya2007/PaisaFlow#readme",
+  "dependencies": {
+    "@better-auth/prisma-adapter": "^1.7.18",
+    "@prisma/adapter-pg": "^7.10.1",
+    "@prisma/client": "^7.10.1",
+    "better-auth": "^1.7.18",
+    "dotenv": "^18.0.9",
+    "express": "^5.3.0",
+    "pg": "^8.23.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.6",
+    "prisma": "^7.10.1",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}

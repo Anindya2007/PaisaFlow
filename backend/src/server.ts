@@ -2,7 +2,7 @@ import express from "express";
 
 const app = express();
 
-const PORT = 5001;
+const PORT = 3000;
 
 app.get("/", (req, res) => {
     res.send("Finance Manager API is running!");

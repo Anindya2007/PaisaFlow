@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum AccountType {
+  BANK
+  WALLET
+}
+
+enum CatrgoryType {
+  FOOD
+  BEVERAGE
+  ELECTRONIC
+  TRAVEL
+  GROCERY
+  EDUCATION
+  ENTERTAINMENT
+  MISCELANEOUS
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+model User {
+  id           String @id @default(uuid()) @db.Uuid
+  name         String @db.VarChar(100)
+  email        String @unique @db.VarChar(255)
+  passwordHash String @db.VarChar(255)
+
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+
+  accounts     Account[]
+  categories   Category[]
+  transactions Transaction[]
+}
+
+model Account {
+  id          String      @id @default(uuid()) @db.Uuid
+  userId      String      @db.Uuid
+  accountName String      @db.VarChar(100)
+  accountType AccountType
+  balance     Decimal     @default(0) @db.Decimal(14, 2)
+
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+
+  user         User          @relation(fields: [userId], references: [id])
+  transactions Transaction[]
+
+  @@index([userId])
+}
+
+model Category {
+  id     String       @id @default(uuid()) @db.Uuid
+  userId String       @db.Uuid
+  name   String       @db.VarChar(60)
+  type   CatrgoryType
+
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+
+  user         User          @relation(fields: [userId], references: [id])
+  transactions Transaction[]
+
+  @@unique([userId, name, type])
+  @@index([userId])
+}
+
+model Transaction {
+  id         String @id @default(uuid()) @db.Uuid
+  userId     String @db.Uuid
+  accountId  String @db.Uuid
+  categoryId String @db.Uuid
+
+  type            TransactionType
+  amount          Decimal         @db.Decimal(14, 2)
+  description     String?         @db.Text
+  transactionDate DateTime        @db.Date
+
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+
+  user     User     @relation(fields: [userId], references: [id])
+  account  Account  @relation(fields: [accountId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
+
+  @@index([userId, transactionDate])
+  @@index([userId, accountId, transactionDate])
+  @@index([userId, categoryId, transactionDate])
+}

@@ -95,13 +95,13 @@ export const getAccountBalance = async (req:Request,res:Response)=>{
 }
 
 
-// ========================== Update account by id ==================================
+
 export const updateAccount = async (req:Request,res:Response)=>{
     try{
         if (!req.authUser){
             return res.status(401).json({message:"Unauthorized"});
         };
-
+        
         const accountId=req.params.id as string;
         const userId=req.authUser.id;
         const {name,type,balance}=req.body;
@@ -111,7 +111,7 @@ export const updateAccount = async (req:Request,res:Response)=>{
         if (!account){
             return res.status(404).json({message:"No such account found !"})
         };
-
+        
         return res.status(201).json({message:"Account fetched sucessfully!!",account})
     }
     catch (err){
@@ -122,6 +122,7 @@ export const updateAccount = async (req:Request,res:Response)=>{
 
 
 
+// ========================== Delete account by id ==================================
 export const deleteAccount= async (req:Request,res:Response)=>{
     try{
         if (!req.authUser){

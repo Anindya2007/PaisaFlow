@@ -114,17 +114,18 @@ export const updateAccountById = async (
             balance: new Decimal(balance)
         }
     });
-
+    
     if (!update) {
         throw Error('Something went wrong while updating account!!')
     };
-
+    
     return update;
 };
 
 
 
 
+// ==========================Delete account by id ==================================
 export const deleteAccountById= async (userId:string,accountId:string,password:string,headers:Record<string,string>)=>{
     try{
         //For verifying wether the password is correct or not
